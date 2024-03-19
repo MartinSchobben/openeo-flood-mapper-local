@@ -229,7 +229,7 @@ window.Quarto = {
   <ul>
   <li><a href="#setting-up-a-python-session" id="toc-setting-up-a-python-session" class="nav-link active" data-scroll-target="#setting-up-a-python-session"><span class="header-section-number">1.1</span> Setting-up a Python Session</a></li>
   <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources"><span class="header-section-number">1.2</span> Data Sources</a></li>
-  <li><a href="#connect-to-an-openeo-back-end" id="toc-connect-to-an-openeo-back-end" class="nav-link" data-scroll-target="#connect-to-an-openeo-back-end"><span class="header-section-number">1.3</span> Connect to an openEO Back-end</a></li>
+  <li><a href="#connect-to-an-openeo-backend" id="toc-connect-to-an-openeo-backend" class="nav-link" data-scroll-target="#connect-to-an-openeo-backend"><span class="header-section-number">1.3</span> Connect to an openEO Backend</a></li>
   <li><a href="#load-collections" id="toc-load-collections" class="nav-link" data-scroll-target="#load-collections"><span class="header-section-number">1.4</span> Load Collections</a></li>
   <li><a href="#openeo-analysis" id="toc-openeo-analysis" class="nav-link" data-scroll-target="#openeo-analysis"><span class="header-section-number">1.5</span> openEO Analysis</a></li>
   <li><a href="#processes-with-child-callbacks" id="toc-processes-with-child-callbacks" class="nav-link" data-scroll-target="#processes-with-child-callbacks"><span class="header-section-number">1.6</span> Processes with Child “callbacks”</a></li>
@@ -290,7 +290,7 @@ Note
 <section id="setting-up-a-python-session" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="setting-up-a-python-session"><span class="header-section-number">1.1</span> Setting-up a Python Session</h2>
 <p>We begin by loading openEO for local processing and some additional packages for transforming and viewing data.</p>
-<div id="b30bc53a" class="cell" data-execution_count="1">
+<div id="bcd71d9f" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -307,17 +307,17 @@ Note
 <section id="data-sources" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="data-sources"><span class="header-section-number">1.2</span> Data Sources</h2>
 <p>The paths to the local data sources define the collections to be loaded in the next steps. In the case of a local openEO instance, we do this by just supplying the paths to the files required for the analysis.</p>
-<div id="7e161309" class="cell" data-execution_count="2">
+<div id="2bc9cb85" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ROOT_DATA <span class="op">=</span> <span class="st">""</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>hparam_id <span class="op">=</span> Path(<span class="ss">f"</span><span class="sc">{</span>ROOT_DATA<span class="sc">}</span><span class="ss">openEO_local/tuw_s1_harpar/S1_CSAR_IWGRDH/SIG0-HPAR/V0M2R3/EQUI7_EU020M/E054N006T3/D080.nc"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>plia_id <span class="op">=</span> Path(<span class="ss">f"</span><span class="sc">{</span>ROOT_DATA<span class="sc">}</span><span class="ss">openEO_local/s1_parameters/S1_CSAR_IWGRDH/PLIA-TAG/V01R03/EQUI7_EU020M/E054N006T3/PLIA-TAG-MEAN_20200101T000000_20201231T235959__D080_E054N006T3_EU020M_V01R03_S1IWGRDH.nc"</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>sig0_id <span class="op">=</span> Path(<span class="ss">f"</span><span class="sc">{</span>ROOT_DATA<span class="sc">}</span><span class="ss">openEO_local/s1_parameters/S1_CSAR_IWGRDH/SIG0/V1M1R1/EQUI7_EU020M/E054N006T3/SIG0_20180228T043908__VV_D080_E054N006T3_EU020M_V1M1R1_S1AIWGRDH_TUWIEN.nc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="connect-to-an-openeo-back-end" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="connect-to-an-openeo-back-end"><span class="header-section-number">1.3</span> Connect to an openEO Back-end</h2>
-<p>Establish the local connection by supplying path(s) to root directories of the data source(s). This results in a connection object which is a critical aspect of collection discovery on the back-end by openEO, where in this instance the back-end is your own machine.</p>
-<div id="fdf3d9c1" class="cell" data-execution_count="3">
+<section id="connect-to-an-openeo-backend" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="connect-to-an-openeo-backend"><span class="header-section-number">1.3</span> Connect to an openEO Backend</h2>
+<p>Establish the local connection by supplying path(s) to root directories of the data source(s). This results in a connection object which is a critical aspect of collection discovery on the backend by openEO, where in this instance the backend is your own machine.</p>
+<div id="53ec58bc" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>local_connection <span class="op">=</span> LocalConnection([</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    hparam_id.parent.as_posix(), </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    plia_id.parent.as_posix(), </span>
@@ -328,7 +328,7 @@ Note
 <section id="load-collections" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="load-collections"><span class="header-section-number">1.4</span> Load Collections</h2>
 <p>We can then load the collections. This is done by using the method <code>load_collection()</code> and by using the collection ids as defined above.</p>
-<div id="eb49114a" class="cell" data-execution_count="4">
+<div id="685475c7" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>hparam_dc <span class="op">=</span> local_connection.load_collection(<span class="bu">str</span>(hparam_id))</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>plia_dc <span class="op">=</span> local_connection.load_collection(<span class="bu">str</span>(plia_id))</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>sig0_dc <span class="op">=</span> local_connection.load_collection(<span class="bu">str</span>(sig0_id))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -338,13 +338,13 @@ Note
 <h2 data-number="1.5" class="anchored" data-anchor-id="openeo-analysis"><span class="header-section-number">1.5</span> openEO Analysis</h2>
 <p>openEO supplies a set of conventional and EO-specific functions (or “processes” in openEO terminology) to work with EO data. In this example, we begin by defining functions that represent the flood mapping algorithm as defined in <span class="citation" data-cites="bauer-marschallinger_satellite-based_2022">Bauer-Marschallinger et al. (<a href="references.html#ref-bauer-marschallinger_satellite-based_2022" role="doc-biblioref">2022</a>)</span>, and by using standard openEO functions. The flood mapping algorithm extracts the following information: 1) the expected backscattering from water bodies, and 2) the expected backscatter intensity over land pixels given historical data. Hence, this function makes use of observations along both the spatial and temporal dimensions of the datacube.</p>
 <p>We first define the function that extracts average backscatter intensity over water bodies and we name it <code>water_backscatter()</code>. This functions applies so-called openEO “band math”, which are basically mathematical computations on the bands of the datacube. In this case, the band of the incidence angle (degrees) of the retrieved backscatter signal is multiplied by a factor consisting of the slope plus an intercept from a linear model. This linear model describes the relationship between incidence angle and backscattering over water globally. Applying this linear model results in expected water back scattering. In a follow-up, we use a so-called reducer function, taking the mean of the band over the time dimension, after which, we rename this dimension “wbsc” of type band.</p>
-<div id="3fc81a35" class="cell" data-execution_count="5">
+<div id="41d24bc3" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> water_backscatter(plia_dc):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (plia_dc <span class="op">*</span> <span class="op">-</span><span class="fl">0.394181</span> <span class="op">+</span> <span class="op">-</span><span class="fl">4.142015</span>).reduce_bands(<span class="st">'mean'</span>). <span class="op">\</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        add_dimension(<span class="st">'bands'</span>, <span class="st">'wbsc'</span>, <span class="st">'bands'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can apply this function to the incidence angle datacube, as follows:</p>
-<div id="7451fb1a" class="cell" data-execution_count="6">
+<div id="e8fed746" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>water_bsc_dc <span class="op">=</span> water_backscatter(plia_dc)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>water_bsc_dc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
@@ -364,13 +364,13 @@ Note
     }
     </script>
     <openeo-model-builder>
-        <script type="application/json">{"id": "e979bc74a031417d8371ebfc4b739096", "explicit-zoom": true, "height": "400px", "value": {"process_graph": {"loadcollection1": {"process_id": "load_collection", "arguments": {"id": "openEO_local/s1_parameters/S1_CSAR_IWGRDH/PLIA-TAG/V01R03/EQUI7_EU020M/E054N006T3/PLIA-TAG-MEAN_20200101T000000_20201231T235959__D080_E054N006T3_EU020M_V01R03_S1IWGRDH.nc", "spatial_extent": null, "temporal_extent": null}}, "apply1": {"process_id": "apply", "arguments": {"data": {"from_node": "loadcollection1"}, "process": {"process_graph": {"multiply1": {"process_id": "multiply", "arguments": {"x": {"from_parameter": "x"}, "y": -0.394181}}, "add1": {"process_id": "add", "arguments": {"x": {"from_node": "multiply1"}, "y": -4.142015}, "result": true}}}}}, "reducedimension1": {"process_id": "reduce_dimension", "arguments": {"data": {"from_node": "apply1"}, "dimension": "bands", "reducer": {"process_graph": {"mean1": {"process_id": "mean", "arguments": {"data": {"from_parameter": "data"}}, "result": true}}}}}, "adddimension1": {"process_id": "add_dimension", "arguments": {"data": {"from_node": "reducedimension1"}, "label": "wbsc", "name": "bands", "type": "bands"}, "result": true}}}}</script>
+        <script type="application/json">{"id": "653b7edbb9b346a6a4161f8e0ca3b792", "explicit-zoom": true, "height": "400px", "value": {"process_graph": {"loadcollection1": {"process_id": "load_collection", "arguments": {"id": "openEO_local/s1_parameters/S1_CSAR_IWGRDH/PLIA-TAG/V01R03/EQUI7_EU020M/E054N006T3/PLIA-TAG-MEAN_20200101T000000_20201231T235959__D080_E054N006T3_EU020M_V01R03_S1IWGRDH.nc", "spatial_extent": null, "temporal_extent": null}}, "apply1": {"process_id": "apply", "arguments": {"data": {"from_node": "loadcollection1"}, "process": {"process_graph": {"multiply1": {"process_id": "multiply", "arguments": {"x": {"from_parameter": "x"}, "y": -0.394181}}, "add1": {"process_id": "add", "arguments": {"x": {"from_node": "multiply1"}, "y": -4.142015}, "result": true}}}}}, "reducedimension1": {"process_id": "reduce_dimension", "arguments": {"data": {"from_node": "apply1"}, "dimension": "bands", "reducer": {"process_graph": {"mean1": {"process_id": "mean", "arguments": {"data": {"from_parameter": "data"}}, "result": true}}}}}, "adddimension1": {"process_id": "add_dimension", "arguments": {"data": {"from_node": "reducedimension1"}, "label": "wbsc", "name": "bands", "type": "bands"}, "result": true}}}}</script>
     </openeo-model-builder>
     
 </div>
 </div>
 <p>Here we can see the basic premise of openEO. The previous call did not actually perform the data processing it only generates a JSON representation of the processing graph. Only by calling <code>execute()</code> on this object, we can actually perform the processing, like so:</p>
-<div id="1f23c2fd" class="cell" data-execution_count="7">
+<div id="88729a28" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>water_bsc_dc.execute()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
@@ -736,15 +736,15 @@ dl.xr-attrs {
   stroke: currentColor;
   fill: currentColor;
 }
-</style><pre class="xr-text-repr-fallback">&lt;xarray.DataArray (bands: 1, y: 15000, x: 15000)&gt;
-dask.array&lt;broadcast_to, shape=(1, 15000, 15000), dtype=float32, chunksize=(1, 2500, 2500), chunktype=numpy.ndarray&gt;
+</style><pre class="xr-text-repr-fallback">&lt;xarray.DataArray (bands: 1, y: 1300, x: 930)&gt;
+dask.array&lt;broadcast_to, shape=(1, 1300, 930), dtype=float32, chunksize=(1, 1300, 930), chunktype=numpy.ndarray&gt;
 Coordinates:
-  * x            (x) float64 5.4e+06 5.4e+06 5.4e+06 ... 5.7e+06 5.7e+06 5.7e+06
-  * y            (y) float64 9e+05 9e+05 9e+05 8.999e+05 ... 6e+05 6e+05 6e+05
+  * x            (x) float64 5.661e+06 5.661e+06 5.661e+06 ... 5.68e+06 5.68e+06
+  * y            (y) float64 6.42e+05 6.42e+05 6.42e+05 ... 6.16e+05 6.16e+05
     spatial_ref  int64 ...
   * bands        (bands) &lt;U4 'wbsc'
 Attributes:
-    reduced_dimensions_min_values:  {'bands': 'PLIA'}</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.DataArray</div><div class="xr-array-name"></div><ul class="xr-dim-list"><li><span class="xr-has-index">bands</span>: 1</li><li><span class="xr-has-index">y</span>: 15000</li><li><span class="xr-has-index">x</span>: 15000</li></ul></div><ul class="xr-sections"><li class="xr-section-item"><div class="xr-array-wrap"><input id="section-7a4dc56d-d21c-44e6-85db-8e621de5ce0d" class="xr-array-in" type="checkbox" checked=""><label for="section-7a4dc56d-d21c-44e6-85db-8e621de5ce0d" title="Show/hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-array-preview xr-preview"><span>dask.array&lt;chunksize=(1, 2500, 2500), meta=np.ndarray&gt;</span></div><div class="xr-array-data">
+    reduced_dimensions_min_values:  {'bands': 'PLIA'}</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.DataArray</div><div class="xr-array-name"></div><ul class="xr-dim-list"><li><span class="xr-has-index">bands</span>: 1</li><li><span class="xr-has-index">y</span>: 1300</li><li><span class="xr-has-index">x</span>: 930</li></ul></div><ul class="xr-sections"><li class="xr-section-item"><div class="xr-array-wrap"><input id="section-450d2f3a-4e6b-4b31-ae99-1fa680e8b120" class="xr-array-in" type="checkbox" checked=""><label for="section-450d2f3a-4e6b-4b31-ae99-1fa680e8b120" title="Show/hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-array-preview xr-preview"><span>dask.array&lt;chunksize=(1, 1300, 930), meta=np.ndarray&gt;</span></div><div class="xr-array-data">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <colgroup>
 <col style="width: 50%">
@@ -763,17 +763,17 @@ Attributes:
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Bytes</td>
-<td>858.31 MiB</td>
-<td>23.84 MiB</td>
+<td>4.61 MiB</td>
+<td>4.61 MiB</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Shape</td>
-<td>(1, 15000, 15000)</td>
-<td>(1, 2500, 2500)</td>
+<td>(1, 1300, 930)</td>
+<td>(1, 1300, 930)</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Dask graph</td>
-<td colspan="2">36 chunks in 8 graph layers</td>
+<td colspan="2">1 chunks in 8 graph layers</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Data type</td>
@@ -781,27 +781,27 @@ Attributes:
 </tr>
 </tbody>
 </table></td>
-<td><svg width="194" height="184" style="stroke:rgb(0,0,0);stroke-width:1">
-<!-- Horizontal lines --> <line x1="10" y1="0" x2="24" y2="14" style="stroke-width:2"></line> <line x1="10" y1="20" x2="24" y2="34"></line> <line x1="10" y1="40" x2="24" y2="54"></line> <line x1="10" y1="60" x2="24" y2="74"></line> <line x1="10" y1="80" x2="24" y2="94"></line> <line x1="10" y1="100" x2="24" y2="114"></line> <line x1="10" y1="120" x2="24" y2="134" style="stroke-width:2"></line> <!-- Vertical lines --> <line x1="10" y1="0" x2="10" y2="120" style="stroke-width:2"></line> <line x1="24" y1="14" x2="24" y2="134" style="stroke-width:2"></line> <!-- Colored Rectangle --> <polygon points="10.0,0.0 24.9485979497544,14.948597949754403 24.9485979497544,134.9485979497544 10.0,120.0" style="fill:#ECB172A0;stroke-width:0"></polygon> <!-- Horizontal lines --> <line x1="10" y1="0" x2="130" y2="0" style="stroke-width:2"></line> <line x1="24" y1="14" x2="144" y2="14" style="stroke-width:2"></line> <!-- Vertical lines --> <line x1="10" y1="0" x2="24" y2="14" style="stroke-width:2"></line> <line x1="30" y1="0" x2="44" y2="14"></line> <line x1="50" y1="0" x2="64" y2="14"></line> <line x1="70" y1="0" x2="84" y2="14"></line> <line x1="90" y1="0" x2="104" y2="14"></line> <line x1="110" y1="0" x2="124" y2="14"></line> <line x1="130" y1="0" x2="144" y2="14" style="stroke-width:2"></line> <!-- Colored Rectangle --> <polygon points="10.0,0.0 130.0,0.0 144.9485979497544,14.948597949754403 24.9485979497544,14.948597949754403" style="fill:#ECB172A0;stroke-width:0"></polygon> <!-- Horizontal lines --> <line x1="24" y1="14" x2="144" y2="14" style="stroke-width:2"></line> <line x1="24" y1="34" x2="144" y2="34"></line> <line x1="24" y1="54" x2="144" y2="54"></line> <line x1="24" y1="74" x2="144" y2="74"></line> <line x1="24" y1="94" x2="144" y2="94"></line> <line x1="24" y1="114" x2="144" y2="114"></line> <line x1="24" y1="134" x2="144" y2="134" style="stroke-width:2"></line> <!-- Vertical lines --> <line x1="24" y1="14" x2="24" y2="134" style="stroke-width:2"></line> <line x1="44" y1="14" x2="44" y2="134"></line> <line x1="64" y1="14" x2="64" y2="134"></line> <line x1="84" y1="14" x2="84" y2="134"></line> <line x1="104" y1="14" x2="104" y2="134"></line> <line x1="124" y1="14" x2="124" y2="134"></line> <line x1="144" y1="14" x2="144" y2="134" style="stroke-width:2"></line> <!-- Colored Rectangle --> <polygon points="24.9485979497544,14.948597949754403 144.9485979497544,14.948597949754403 144.9485979497544,134.9485979497544 24.9485979497544,134.9485979497544" style="fill:#ECB172A0;stroke-width:0"></polygon> <!-- Text --> <text x="84.948598" y="154.948598" font-size="1.0rem" font-weight="100" text-anchor="middle">15000</text> <text x="164.948598" y="74.948598" font-size="1.0rem" font-weight="100" text-anchor="middle" transform="rotate(-90,164.948598,74.948598)">15000</text> <text x="7.474299" y="147.474299" font-size="1.0rem" font-weight="100" text-anchor="middle" transform="rotate(45,7.474299,147.474299)">1</text>
+<td><svg width="160" height="184" style="stroke:rgb(0,0,0);stroke-width:1">
+<!-- Horizontal lines --> <line x1="10" y1="0" x2="24" y2="14" style="stroke-width:2"></line> <line x1="10" y1="120" x2="24" y2="134" style="stroke-width:2"></line> <!-- Vertical lines --> <line x1="10" y1="0" x2="10" y2="120" style="stroke-width:2"></line> <line x1="24" y1="14" x2="24" y2="134" style="stroke-width:2"></line> <!-- Colored Rectangle --> <polygon points="10.0,0.0 24.9485979497544,14.948597949754403 24.9485979497544,134.9485979497544 10.0,120.0" style="fill:#ECB172A0;stroke-width:0"></polygon> <!-- Horizontal lines --> <line x1="10" y1="0" x2="95" y2="0" style="stroke-width:2"></line> <line x1="24" y1="14" x2="110" y2="14" style="stroke-width:2"></line> <!-- Vertical lines --> <line x1="10" y1="0" x2="24" y2="14" style="stroke-width:2"></line> <line x1="95" y1="0" x2="110" y2="14" style="stroke-width:2"></line> <!-- Colored Rectangle --> <polygon points="10.0,0.0 95.84615384615385,0.0 110.79475179590825,14.948597949754403 24.9485979497544,14.948597949754403" style="fill:#ECB172A0;stroke-width:0"></polygon> <!-- Horizontal lines --> <line x1="24" y1="14" x2="110" y2="14" style="stroke-width:2"></line> <line x1="24" y1="134" x2="110" y2="134" style="stroke-width:2"></line> <!-- Vertical lines --> <line x1="24" y1="14" x2="24" y2="134" style="stroke-width:2"></line> <line x1="110" y1="14" x2="110" y2="134" style="stroke-width:2"></line> <!-- Colored Rectangle --> <polygon points="24.9485979497544,14.948597949754403 110.79475179590825,14.948597949754403 110.79475179590825,134.9485979497544 24.9485979497544,134.9485979497544" style="fill:#ECB172A0;stroke-width:0"></polygon> <!-- Text --> <text x="67.871675" y="154.948598" font-size="1.0rem" font-weight="100" text-anchor="middle">930</text> <text x="130.794752" y="74.948598" font-size="1.0rem" font-weight="100" text-anchor="middle" transform="rotate(-90,130.794752,74.948598)">1300</text> <text x="7.474299" y="147.474299" font-size="1.0rem" font-weight="100" text-anchor="middle" transform="rotate(45,7.474299,147.474299)">1</text>
 </svg></td>
 </tr>
 </tbody>
 </table>
-</div></div></li><li class="xr-section-item"><input id="section-1cef9e76-522d-4cb4-b852-490133c5a8ca" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-1cef9e76-522d-4cb4-b852-490133c5a8ca" class="xr-section-summary">Coordinates: <span>(4)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">x</span></div><div class="xr-var-dims">(x)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">5.4e+06 5.4e+06 ... 5.7e+06 5.7e+06</div><input id="attrs-acb7947c-a6a6-420d-b81c-24b91444c6f6" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-acb7947c-a6a6-420d-b81c-24b91444c6f6" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-35e56d7e-c5b7-47c1-b72f-8a4d7d5a6be1" class="xr-var-data-in" type="checkbox"><label for="data-35e56d7e-c5b7-47c1-b72f-8a4d7d5a6be1" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([5400010., 5400030., 5400050., ..., 5699950., 5699970., 5699990.])</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">y</span></div><div class="xr-var-dims">(y)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">9e+05 9e+05 9e+05 ... 6e+05 6e+05</div><input id="attrs-1b8247e2-fe3b-4458-81b5-25ad4ebc30b7" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-1b8247e2-fe3b-4458-81b5-25ad4ebc30b7" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-f92a4a32-e3b3-4299-892a-ad0b8eedd0d9" class="xr-var-data-in" type="checkbox"><label for="data-f92a4a32-e3b3-4299-892a-ad0b8eedd0d9" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([899990., 899970., 899950., ..., 600050., 600030., 600010.])</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>spatial_ref</span></div><div class="xr-var-dims">()</div><div class="xr-var-dtype">int64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-20842353-2f47-4c68-bdf0-0321bfb733b0" class="xr-var-attrs-in" type="checkbox"><label for="attrs-20842353-2f47-4c68-bdf0-0321bfb733b0" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-e0837382-a7b1-4b8e-a961-b36668c62669" class="xr-var-data-in" type="checkbox"><label for="data-e0837382-a7b1-4b8e-a961-b36668c62669" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>crs_wkt :</span></dt><dd>PROJCS["Azimuthal_Equidistant",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Azimuthal_Equidistant"],PARAMETER["latitude_of_center",53],PARAMETER["longitude_of_center",24],PARAMETER["false_easting",5837287.81977],PARAMETER["false_northing",2121415.69617],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH]]</dd><dt><span>semi_major_axis :</span></dt><dd>6378137.0</dd><dt><span>semi_minor_axis :</span></dt><dd>6356752.314245179</dd><dt><span>inverse_flattening :</span></dt><dd>298.257223563</dd><dt><span>reference_ellipsoid_name :</span></dt><dd>WGS 84</dd><dt><span>longitude_of_prime_meridian :</span></dt><dd>0.0</dd><dt><span>prime_meridian_name :</span></dt><dd>Greenwich</dd><dt><span>geographic_crs_name :</span></dt><dd>WGS 84</dd><dt><span>horizontal_datum_name :</span></dt><dd>World Geodetic System 1984</dd><dt><span>projected_crs_name :</span></dt><dd>Azimuthal_Equidistant</dd><dt><span>grid_mapping_name :</span></dt><dd>azimuthal_equidistant</dd><dt><span>latitude_of_projection_origin :</span></dt><dd>53.0</dd><dt><span>longitude_of_projection_origin :</span></dt><dd>24.0</dd><dt><span>false_easting :</span></dt><dd>5837287.81977</dd><dt><span>false_northing :</span></dt><dd>2121415.69617</dd><dt><span>spatial_ref :</span></dt><dd>PROJCS["Azimuthal_Equidistant",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Azimuthal_Equidistant"],PARAMETER["latitude_of_center",53],PARAMETER["longitude_of_center",24],PARAMETER["false_easting",5837287.81977],PARAMETER["false_northing",2121415.69617],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH]]</dd><dt><span>GeoTransform :</span></dt><dd>5400000.0 20.0 0.0 900000.0 0.0 -20.0</dd></dl></div><div class="xr-var-data"><pre>[1 values with dtype=int64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">bands</span></div><div class="xr-var-dims">(bands)</div><div class="xr-var-dtype">&lt;U4</div><div class="xr-var-preview xr-preview">'wbsc'</div><input id="attrs-967e1b61-b0e2-4129-bec1-b261331dca98" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-967e1b61-b0e2-4129-bec1-b261331dca98" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-310964ed-9876-4b56-a6ec-7b3d0d40e596" class="xr-var-data-in" type="checkbox"><label for="data-310964ed-9876-4b56-a6ec-7b3d0d40e596" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['wbsc'], dtype='&lt;U4')</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-d6700baf-7042-4cf2-b47e-c127b65487fb" class="xr-section-summary-in" type="checkbox"><label for="section-d6700baf-7042-4cf2-b47e-c127b65487fb" class="xr-section-summary">Indexes: <span>(3)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-index-name"><div>x</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-c6202fcf-18c7-40d6-ac9f-cbf19dee34e7" class="xr-index-data-in" type="checkbox"><label for="index-c6202fcf-18c7-40d6-ac9f-cbf19dee34e7" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([5400010.0, 5400030.0, 5400050.0, 5400070.0, 5400090.0, 5400110.0,
-       5400130.0, 5400150.0, 5400170.0, 5400190.0,
+</div></div></li><li class="xr-section-item"><input id="section-0256b3d8-5c1d-4e20-97e9-923806e2a6e2" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-0256b3d8-5c1d-4e20-97e9-923806e2a6e2" class="xr-section-summary">Coordinates: <span>(4)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">x</span></div><div class="xr-var-dims">(x)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">5.661e+06 5.661e+06 ... 5.68e+06</div><input id="attrs-fe65863f-43e6-47f4-b20f-24226a40ae5c" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-fe65863f-43e6-47f4-b20f-24226a40ae5c" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-dd434aff-d577-460e-9861-45cec435d2b1" class="xr-var-data-in" type="checkbox"><label for="data-dd434aff-d577-460e-9861-45cec435d2b1" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([5661410., 5661430., 5661450., ..., 5679950., 5679970., 5679990.])</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">y</span></div><div class="xr-var-dims">(y)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">6.42e+05 6.42e+05 ... 6.16e+05</div><input id="attrs-e18cb06b-b276-4694-a04b-2d40f7941fab" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-e18cb06b-b276-4694-a04b-2d40f7941fab" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-88491d9f-99e6-4275-9738-f2a3dd944dba" class="xr-var-data-in" type="checkbox"><label for="data-88491d9f-99e6-4275-9738-f2a3dd944dba" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([641990., 641970., 641950., ..., 616050., 616030., 616010.])</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>spatial_ref</span></div><div class="xr-var-dims">()</div><div class="xr-var-dtype">int64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-4f1910c2-78d9-49f5-a79d-e11064a230fd" class="xr-var-attrs-in" type="checkbox"><label for="attrs-4f1910c2-78d9-49f5-a79d-e11064a230fd" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-a2428638-ade7-452e-8917-ad0412f0f29b" class="xr-var-data-in" type="checkbox"><label for="data-a2428638-ade7-452e-8917-ad0412f0f29b" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>crs_wkt :</span></dt><dd>PROJCS["Azimuthal_Equidistant",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Azimuthal_Equidistant"],PARAMETER["latitude_of_center",53],PARAMETER["longitude_of_center",24],PARAMETER["false_easting",5837287.81977],PARAMETER["false_northing",2121415.69617],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH]]</dd><dt><span>semi_major_axis :</span></dt><dd>6378137.0</dd><dt><span>semi_minor_axis :</span></dt><dd>6356752.314245179</dd><dt><span>inverse_flattening :</span></dt><dd>298.257223563</dd><dt><span>reference_ellipsoid_name :</span></dt><dd>WGS 84</dd><dt><span>longitude_of_prime_meridian :</span></dt><dd>0.0</dd><dt><span>prime_meridian_name :</span></dt><dd>Greenwich</dd><dt><span>geographic_crs_name :</span></dt><dd>WGS 84</dd><dt><span>horizontal_datum_name :</span></dt><dd>World Geodetic System 1984</dd><dt><span>projected_crs_name :</span></dt><dd>Azimuthal_Equidistant</dd><dt><span>grid_mapping_name :</span></dt><dd>azimuthal_equidistant</dd><dt><span>latitude_of_projection_origin :</span></dt><dd>53.0</dd><dt><span>longitude_of_projection_origin :</span></dt><dd>24.0</dd><dt><span>false_easting :</span></dt><dd>5837287.81977</dd><dt><span>false_northing :</span></dt><dd>2121415.69617</dd><dt><span>spatial_ref :</span></dt><dd>PROJCS["Azimuthal_Equidistant",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Azimuthal_Equidistant"],PARAMETER["latitude_of_center",53],PARAMETER["longitude_of_center",24],PARAMETER["false_easting",5837287.81977],PARAMETER["false_northing",2121415.69617],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH]]</dd><dt><span>GeoTransform :</span></dt><dd>5400000.0 20.0 0.0 900000.0 0.0 -20.0</dd></dl></div><div class="xr-var-data"><pre>[1 values with dtype=int64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">bands</span></div><div class="xr-var-dims">(bands)</div><div class="xr-var-dtype">&lt;U4</div><div class="xr-var-preview xr-preview">'wbsc'</div><input id="attrs-feabe584-fa1f-417d-9ad0-c7e285ecc0a2" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-feabe584-fa1f-417d-9ad0-c7e285ecc0a2" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-8c1c1ed7-61a5-49e8-b361-ee0625e1978f" class="xr-var-data-in" type="checkbox"><label for="data-8c1c1ed7-61a5-49e8-b361-ee0625e1978f" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['wbsc'], dtype='&lt;U4')</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-a900ca74-91d5-4268-83b1-4bdb1734bc90" class="xr-section-summary-in" type="checkbox"><label for="section-a900ca74-91d5-4268-83b1-4bdb1734bc90" class="xr-section-summary">Indexes: <span>(3)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-index-name"><div>x</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-17735f3b-8937-4d8d-a65e-8c0d56c0c2be" class="xr-index-data-in" type="checkbox"><label for="index-17735f3b-8937-4d8d-a65e-8c0d56c0c2be" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([5661410.0, 5661430.0, 5661450.0, 5661470.0, 5661490.0, 5661510.0,
+       5661530.0, 5661550.0, 5661570.0, 5661590.0,
        ...
-       5699810.0, 5699830.0, 5699850.0, 5699870.0, 5699890.0, 5699910.0,
-       5699930.0, 5699950.0, 5699970.0, 5699990.0],
-      dtype='float64', name='x', length=15000))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>y</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-53c55390-8e12-4eea-a91a-142cf270e30d" class="xr-index-data-in" type="checkbox"><label for="index-53c55390-8e12-4eea-a91a-142cf270e30d" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([899990.0, 899970.0, 899950.0, 899930.0, 899910.0, 899890.0, 899870.0,
-       899850.0, 899830.0, 899810.0,
+       5679810.0, 5679830.0, 5679850.0, 5679870.0, 5679890.0, 5679910.0,
+       5679930.0, 5679950.0, 5679970.0, 5679990.0],
+      dtype='float64', name='x', length=930))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>y</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-56b417ba-4af5-47f5-a532-0abac542307d" class="xr-index-data-in" type="checkbox"><label for="index-56b417ba-4af5-47f5-a532-0abac542307d" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([641990.0, 641970.0, 641950.0, 641930.0, 641910.0, 641890.0, 641870.0,
+       641850.0, 641830.0, 641810.0,
        ...
-       600190.0, 600170.0, 600150.0, 600130.0, 600110.0, 600090.0, 600070.0,
-       600050.0, 600030.0, 600010.0],
-      dtype='float64', name='y', length=15000))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>bands</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-5ae52985-4ad8-4cd7-a9c2-b4f7d088caa4" class="xr-index-data-in" type="checkbox"><label for="index-5ae52985-4ad8-4cd7-a9c2-b4f7d088caa4" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index(['wbsc'], dtype='object', name='bands'))</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-972b0972-4c6b-4cc7-9e88-4296133f2f94" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-972b0972-4c6b-4cc7-9e88-4296133f2f94" class="xr-section-summary">Attributes: <span>(1)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"><dt><span>reduced_dimensions_min_values :</span></dt><dd>{'bands': 'PLIA'}</dd></dl></div></li></ul></div></div>
+       616190.0, 616170.0, 616150.0, 616130.0, 616110.0, 616090.0, 616070.0,
+       616050.0, 616030.0, 616010.0],
+      dtype='float64', name='y', length=1300))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>bands</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-ca8b3e81-af99-4f2d-a9f5-36cc5ebbfdf9" class="xr-index-data-in" type="checkbox"><label for="index-ca8b3e81-af99-4f2d-a9f5-36cc5ebbfdf9" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index(['wbsc'], dtype='object', name='bands'))</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-3308e6b8-ae9c-457b-832e-6f7a07a60f8c" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-3308e6b8-ae9c-457b-832e-6f7a07a60f8c" class="xr-section-summary">Attributes: <span>(1)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"><dt><span>reduced_dimensions_min_values :</span></dt><dd>{'bands': 'PLIA'}</dd></dl></div></li></ul></div></div>
 </div>
 </div>
 <p>We define a second function to obtain expected backscattering over land pixels. In this case we will have to use historical Sentinel-1 data for each pixel to negate the effect of seasons on the sigma nought signal. Hence a so-called harmonic model is fitted. The following function <code>harmonic_expected_backscatter()</code> uses this harmonic model for estimations optimised to filter out seasonal signals.</p>
-<div id="edfcbce8" class="cell" data-execution_count="8">
+<div id="7313ee48" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> harmonic_expected_backscatter(data, dtime_str):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> np.pi <span class="op">*</span> <span class="dv">2</span> <span class="op">/</span> <span class="dv">365</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> datetime.strptime(dtime_str, <span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">"</span>)</span>
@@ -821,7 +821,7 @@ Attributes:
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hm_c3.add_dimension(<span class="st">'bands'</span>, <span class="st">'hbsc'</span>, <span class="st">'bands'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can now again apply this function to a datacube. For this operation we use the <code>hparam_dc</code> datacube defining the harmonic parameters of said model. These parameters together with the date of the flooding event generate the expected backscattering per land pixel.</p>
-<div id="d2de10b3" class="cell" data-execution_count="9">
+<div id="a7d68ceb" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>land_bsc_dc <span class="op">=</span> harmonic_expected_backscatter(hparam_dc, <span class="st">'2018-02-01'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>So far we have covered a couple of the core features of the openEO Python Client syntax. However, in all these cases, the shape of the datacube was not altered. In the following section we cover what to do when want to change shape through accumulation or reduction of input values.</p>
@@ -830,7 +830,7 @@ Attributes:
 <h2 data-number="1.6" class="anchored" data-anchor-id="processes-with-child-callbacks"><span class="header-section-number">1.6</span> Processes with Child “callbacks”</h2>
 <p>Now we will define the last function, which calculates the probability of flooding with a Bayesian classification model. The output of this function tells if a pixel is flooded based on the previous defined expected land and water backscattering. The implementation of this function is, however, different from the previous functions, as it is applied to subsets of datacubes through the openEO function <code>reduce_bands()</code> and it thereby changes the shape of the input values. This family of functions, which also includes, e.g., <code>apply()</code>, <code>reduce_dimension()</code>, and <code>aggregate_spatial()</code>, are known as the “parent” functions. These parent functions invoke a subprocess on the datacube, so-called child “callbacks”.</p>
 <p>The following function will be used as a child callback to calculate flooding probabilities. Note that the function requires the openEO helper object <code>ProcessBuilder</code>.</p>
-<div id="bb882ef5" class="cell" data-execution_count="10">
+<div id="6a90fabe" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bayesian_flood_decision(x: ProcessBuilder) <span class="op">-&gt;</span> ProcessBuilder:</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    nf_std <span class="op">=</span> <span class="fl">2.754041</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    sig0 <span class="op">=</span> x.array_element(index<span class="op">=</span><span class="dv">0</span>)</span>
@@ -852,12 +852,12 @@ Attributes:
 </div>
 <p>We will use a child callback to reduce a datacube consisting of the expected backscatter over water, the expected backscattering over land and it’s standard deviation, and the sigma nought values to one new band comprising the flood classifications per pixel.</p>
 <p>For this we will first have to load the standard deviations of the expected land backscattering for each pixel and the sigma nought values for the particular timeperiod of the expected flooding (February 2018).</p>
-<div id="786b6f04" class="cell" data-execution_count="11">
+<div id="a3b66273" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>std_dc <span class="op">=</span> hparam_dc.band(<span class="st">'STD'</span>).add_dimension(<span class="st">'bands'</span>, <span class="st">'std'</span>, <span class="st">'bands'</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>sig0_dc <span class="op">=</span> sig0_dc.reduce_bands(<span class="st">'mean'</span>).add_dimension(<span class="st">'bands'</span>, <span class="st">'sig0'</span>, <span class="st">'bands'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we can merge all these datacubes, like so:</p>
-<div id="52b6db30" class="cell" data-execution_count="12">
+<div id="64c43906" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>decision_in <span class="op">=</span> sig0_dc. <span class="op">\</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    merge_cubes(std_dc). <span class="op">\</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    merge_cubes(water_bsc_dc). <span class="op">\</span></span>
@@ -868,7 +868,7 @@ Attributes:
 <section id="classification" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Classification</h1>
 <p>The merged preprocessed datacube can then be used as input for the Bayesian flood mapping function that reduces all these bands to just one in the resulting datacube.</p>
-<div id="d01d42f2" class="cell" data-execution_count="13">
+<div id="a7a00bad" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>flood_dc <span class="op">=</span> decision_in.reduce_bands(bayesian_flood_decision). <span class="op">\</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    add_dimension(<span class="st">'bands'</span>, <span class="st">'dec'</span>, <span class="st">'bands'</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>flood_dc <span class="op">=</span> flood_dc.merge_cubes(decision_in)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -876,13 +876,13 @@ Attributes:
 <section id="openeo-flood-mapping" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="openeo-flood-mapping"><span class="header-section-number">2.1</span> openEO Flood Mapping</h2>
 <p>We can check the results of the openEO by executing the processing steps with <code>execute()</code> and by plotting the flood mapping classification.</p>
-<div id="900f81da" class="cell" data-results="hide" data-execution_count="14">
+<div id="fc36d1e0" class="cell" data-results="hide" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>flood_decision <span class="op">=</span> flood_dc.execute()</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>view_flood_map(flood_decision[<span class="dv">0</span>, <span class="dv">13070</span>:<span class="dv">14000</span>, <span class="dv">12900</span>:<span class="dv">14200</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>view_flood_map(flood_decision[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="1_yeoda_dc_files/figure-html/cell-15-output-1.png" width="838" height="634" class="figure-img"></p>
+<p><img src="1_yeoda_dc_files/figure-html/cell-15-output-1.png" width="600" height="634" class="figure-img"></p>
 <figcaption>openEO floodmap - no pre-processing</figcaption>
 </figure>
 </div>
@@ -896,16 +896,16 @@ Attributes:
 <section id="masking-of-exceeding-incidence-angles" class="level3" data-number="2.2.1">
 <h3 data-number="2.2.1" class="anchored" data-anchor-id="masking-of-exceeding-incidence-angles"><span class="header-section-number">2.2.1</span> Masking of Exceeding Incidence Angles</h3>
 <p>Firstly we mask areas where the incidence angle exceeds the maximum tolerable range of <span class="math inline">\(27\degree\)</span> to <span class="math inline">\(48\degree\)</span>. These larger than usual incidence angles are a result of the area’s topography as beams reflect from steep slopes.</p>
-<div id="a1d2a9ce" class="cell" data-execution_count="15">
+<div id="0ed5dce5" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mask_ia <span class="op">=</span> (flood_dc.band(<span class="st">"PLIA"</span>) <span class="op">&gt;=</span> <span class="dv">27</span>) <span class="op">*</span> (flood_dc.band(<span class="st">"PLIA"</span>) <span class="op">&lt;=</span> <span class="dv">48</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>flood_dc <span class="op">=</span> flood_dc <span class="op">*</span> mask_ia</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This results in the following map:</p>
-<div id="791698ca" class="cell" data-results="hide" data-execution_count="16">
+<div id="ef9e367e" class="cell" data-results="hide" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="1_yeoda_dc_files/figure-html/cell-17-output-1.png" width="838" height="634" class="figure-img"></p>
+<p><img src="1_yeoda_dc_files/figure-html/cell-17-output-1.png" width="600" height="634" class="figure-img"></p>
 <figcaption>openEO floodmap - masking exceeding incidence angles</figcaption>
 </figure>
 </div>
@@ -915,17 +915,17 @@ Attributes:
 <section id="identification-of-conflicting-distributions" class="level3" data-number="2.2.2">
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="identification-of-conflicting-distributions"><span class="header-section-number">2.2.2</span> Identification of Conflicting Distributions</h3>
 <p>We remove values that have already low backscatter values during normal conditions and which do not represent water. Examples of such surfaces are highways, airstrips. salt panes, or arid sand and/or bedrock. Identification of such conflicting distribution is done by comparing the expected local land distribution (from the harmonic model) with those from the water distribution, if these cannot be distinguished from each other, the pixel is excluded.</p>
-<div id="3e19b2e0" class="cell" data-execution_count="17">
+<div id="fe1e57c0" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>water_bsc_threshold <span class="op">=</span> decision_in.band(<span class="st">"wbsc"</span>) <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="fl">2.754041</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>mask_conflict <span class="op">=</span> decision_in.band(<span class="st">"hbsc"</span>) <span class="op">&gt;</span> water_bsc_threshold</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>flood_dc <span class="op">=</span> flood_dc <span class="op">*</span> mask_conflict</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Exclusion of these conflicting distributions look as follows:</p>
-<div id="3cceeda6" class="cell" data-results="hide" data-execution_count="18">
+<div id="f1272365" class="cell" data-results="hide" data-execution_count="18">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="1_yeoda_dc_files/figure-html/cell-19-output-1.png" width="838" height="634" class="figure-img"></p>
+<p><img src="1_yeoda_dc_files/figure-html/cell-19-output-1.png" width="600" height="634" class="figure-img"></p>
 <figcaption>openEO floodmap - masking conflicting distributions + exceeding incidence angles</figcaption>
 </figure>
 </div>
@@ -935,7 +935,7 @@ Attributes:
 <section id="removal-of-measurement-outliers" class="level3" data-number="2.2.3">
 <h3 data-number="2.2.3" class="anchored" data-anchor-id="removal-of-measurement-outliers"><span class="header-section-number">2.2.3</span> Removal of Measurement Outliers</h3>
 <p>Extreme backscatter values are yet another source of insensitivity to floods. These outliers are not properly represented by the Bayesian model probabilities.</p>
-<div id="8a7bea32" class="cell" data-execution_count="19">
+<div id="75310c30" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>land_bsc_lower <span class="op">=</span> flood_dc.band(<span class="st">"hbsc"</span>) <span class="op">-</span> <span class="dv">3</span> <span class="op">*</span> flood_dc.band(<span class="st">"std"</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>land_bsc_upper <span class="op">=</span> flood_dc.band(<span class="st">"hbsc"</span>) <span class="op">+</span> <span class="dv">3</span> <span class="op">*</span> flood_dc.band(<span class="st">"std"</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>water_bsc_upper <span class="op">=</span> flood_dc.band(<span class="st">"wbsc"</span>) <span class="op">+</span> <span class="dv">3</span> <span class="op">*</span> <span class="fl">2.754041</span></span>
@@ -945,11 +945,11 @@ Attributes:
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>flood_dc <span class="op">=</span> flood_dc <span class="op">*</span> (mask_land_outliers <span class="op">|</span> mask_water_outliers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Adding this to the prvious masking results in the following map:</p>
-<div id="a867bb34" class="cell" data-results="hide" data-execution_count="20">
+<div id="88b0f1c4" class="cell" data-results="hide" data-execution_count="20">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="1_yeoda_dc_files/figure-html/cell-21-output-1.png" width="838" height="634" class="figure-img"></p>
+<p><img src="1_yeoda_dc_files/figure-html/cell-21-output-1.png" width="600" height="634" class="figure-img"></p>
 <figcaption>openEO floodmap - masking extreme outliers + conflicting distributions + exceeding incidence angles</figcaption>
 </figure>
 </div>
@@ -959,16 +959,16 @@ Attributes:
 <section id="denial-of-high-uncertainty-on-decision" class="level3" data-number="2.2.4">
 <h3 data-number="2.2.4" class="anchored" data-anchor-id="denial-of-high-uncertainty-on-decision"><span class="header-section-number">2.2.4</span> Denial of High Uncertainty on Decision</h3>
 <p>In some cases the posterior distribution is ambiguous as it falls close to a 0.5 probability of flooding (i.e., a coin flip). This happens when the probability distributions for water and land backscattering overlap and/or the measured backscatter values falls exactly in the middle of the two distributions. Hence a cut-off of 0.2 is used to limit the potential of falls positive classifications.</p>
-<div id="e1512ba2" class="cell" data-execution_count="21">
+<div id="3255c17d" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mask_uncertainty <span class="op">=</span> flood_dc.band(<span class="st">"dec"</span>) <span class="op">&gt;</span> <span class="fl">0.8</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>flood_dc <span class="op">=</span> flood_dc <span class="op">*</span> mask_uncertainty</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This results in the following floodmap.</p>
-<div id="1f7542f3" class="cell" data-results="hide" data-execution_count="22">
+<div id="2790f698" class="cell" data-results="hide" data-execution_count="22">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="1_yeoda_dc_files/figure-html/cell-23-output-1.png" width="838" height="634" class="figure-img"></p>
+<p><img src="1_yeoda_dc_files/figure-html/cell-23-output-1.png" width="600" height="634" class="figure-img"></p>
 <figcaption>openEO floodmap - masking high uncertainty classifications + extreme outliers + conflicting distributions + exceeding incidence angles</figcaption>
 </figure>
 </div>
@@ -983,13 +983,13 @@ Attributes:
 <h3 data-number="2.3.1" class="anchored" data-anchor-id="removal-of-speckles"><span class="header-section-number">2.3.1</span> Removal of Speckles</h3>
 <p>One such filtering approach targets so-called speckles. These speckles are areas of one or a few pixels, and which are likely the result of the diversity of scattering surfaces at a sub-pixel level. In this approach it is argued that small, solitary flood surfaces are unlikely. Hence speckles are removed by applying a smoothing filter which consists of a rolling window median along the x and y-axis simultaneously.</p>
 <p>This approach is realized in openEO with the parent function <code>apply_neighborhood()</code> with a window size of 3 by 3 pixels. The child process <code>median</code> is used to average the window’s values.</p>
-<div id="34f5262a" class="cell" data-execution_count="23">
+<div id="d93ccc7f" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>flood_decision <span class="op">=</span> flood_dc. <span class="op">\</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    apply_neighborhood(<span class="st">"median"</span>, <span class="bu">dict</span>(x<span class="op">=-</span><span class="dv">1</span>, y<span class="op">=-</span><span class="dv">1</span>), <span class="bu">dict</span>(x<span class="op">=</span><span class="dv">2</span>, y<span class="op">=</span><span class="dv">2</span>)). <span class="op">\</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    execute()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This results in a much clearer flood map, as shown below:</p>
-<div id="36b59452" class="cell" data-results="hide" data-execution_count="24">
+<div id="eef561e6" class="cell" data-results="hide" data-execution_count="24">
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/mschobbe/miniconda3/envs/openeo-flood-mapper-local/lib/python3.10/site-packages/dask/utils.py:73: RuntimeWarning: All-NaN slice encountered
   return func(*args, **kwargs)</code></pre>
@@ -997,7 +997,7 @@ Attributes:
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="1_yeoda_dc_files/figure-html/cell-25-output-2.png" width="838" height="634" class="figure-img"></p>
+<p><img src="1_yeoda_dc_files/figure-html/cell-25-output-2.png" width="600" height="634" class="figure-img"></p>
 <figcaption>openEO floodmap - masking high uncertainty classifications + extreme outliers + conflicting distributions + exceeding incidence angles + majority filter</figcaption>
 </figure>
 </div>

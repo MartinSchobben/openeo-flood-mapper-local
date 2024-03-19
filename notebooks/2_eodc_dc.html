@@ -179,7 +179,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#setting-up-a-python-session" id="toc-setting-up-a-python-session" class="nav-link active" data-scroll-target="#setting-up-a-python-session"><span class="header-section-number">2.1</span> Setting-up a Python session</a></li>
-  <li><a href="#connect-to-the-eodc-openeo-back-end" id="toc-connect-to-the-eodc-openeo-back-end" class="nav-link" data-scroll-target="#connect-to-the-eodc-openeo-back-end"><span class="header-section-number">2.2</span> Connect to the EODC openEO Back-end</a></li>
+  <li><a href="#connect-to-the-eodc-openeo-backend" id="toc-connect-to-the-eodc-openeo-backend" class="nav-link" data-scroll-target="#connect-to-the-eodc-openeo-backend"><span class="header-section-number">2.2</span> Connect to the EODC openEO Backend</a></li>
   <li><a href="#load-collections-from-the-eodc" id="toc-load-collections-from-the-eodc" class="nav-link" data-scroll-target="#load-collections-from-the-eodc"><span class="header-section-number">2.3</span> Load Collections from the EODC</a></li>
   <li><a href="#openeo-analysis-at-the-eodc" id="toc-openeo-analysis-at-the-eodc" class="nav-link" data-scroll-target="#openeo-analysis-at-the-eodc"><span class="header-section-number">2.4</span> openEO Analysis at the EODC</a></li>
   </ul>
@@ -211,28 +211,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="setting-up-a-python-session" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="setting-up-a-python-session"><span class="header-section-number">2.1</span> Setting-up a Python session</h2>
 <p>We again begin by loading openEO and some additional packages.</p>
-<div id="4a5f004c" class="cell" data-execution_count="1">
+<div id="2c4a3e88" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> openeo_flood_mapper_local.view_flood_map <span class="im">import</span> view_flood_map</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> openeo</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> openeo.processes <span class="im">import</span> ProcessBuilder, array_element, add, multiply, sin, cos, mask, exp, median</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> openeo_flood_mapper_local.view_flood_map <span class="im">import</span> view_flood_map</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> openeo</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> openeo.processes <span class="im">import</span> ProcessBuilder, array_element, add, multiply, sin, cos, mask, exp, median</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="connect-to-the-eodc-openeo-back-end" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="connect-to-the-eodc-openeo-back-end"><span class="header-section-number">2.2</span> Connect to the EODC openEO Back-end</h2>
-<p>Establish a connection to the EODC back-end with <code>openeo.connect()</code>. This results in a connection object which is a critical aspect of collection discovery on the back-end by openEO.</p>
-<div id="a70d35ba" class="cell" data-execution_count="2">
+<section id="connect-to-the-eodc-openeo-backend" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="connect-to-the-eodc-openeo-backend"><span class="header-section-number">2.2</span> Connect to the EODC openEO Backend</h2>
+<p>Establish a connection to the EODC backend with <code>openeo.connect()</code>. This results in a connection object which is a critical aspect of collection discovery on the backend by openEO.</p>
+<div id="2ab63e24" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>backend <span class="op">=</span> <span class="st">"https://openeo.eodc.eu"</span> </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>connection <span class="op">=</span> openeo.<span class="ex">connect</span>(backend)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>connection.authenticate_oidc()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Authenticated using refresh token.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="2">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>&lt;Connection to 'https://openeo.eodc.eu/openeo/1.1.0/' with OidcBearerAuth&gt;</code></pre>
 </div>
 </div>
@@ -240,9 +241,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="load-collections-from-the-eodc" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="load-collections-from-the-eodc"><span class="header-section-number">2.3</span> Load Collections from the EODC</h2>
 <p>We can first have a look at the metadata available at the EODC for the required collections (SENTINEL1_SIG0_20M, SENTINEL1_HPAR, and SENTINEL1_MPLIA), like so:</p>
-<div id="a5d8fe9b" class="cell output" data-execution_count="3">
+<div id="ae6d7050" class="cell output" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>connection.collection_metadata(<span class="st">"SENTINEL1_SIG0_20M"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="4">
 
     <script>
     if (!window.customElements || !window.customElements.get('openeo-collection')) {
@@ -264,12 +265,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     
 </div>
 </div>
-<p>We can then load the collections. This is done by using the method <code>load_collection()</code> and by using the collection ids as defined above. During collection loading we also do some initial filtering for convenience. We use the following criteria for filtering.</p>
-<div id="b1d08304" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>spatial_extent <span class="op">=</span> {<span class="st">"west"</span>: <span class="dv">22</span>, <span class="st">"south"</span>: <span class="fl">39.483774</span>, <span class="st">"east"</span>: <span class="fl">22.225465</span>, <span class="st">"north"</span>: <span class="fl">39.6</span>}</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sensing_date <span class="op">=</span> [<span class="st">"2018-02-28T04:00:00Z"</span>, <span class="st">"2018-02-28T05:00:00Z"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can then load the collections. This is done by using the method <code>load_collection()</code> and by using the collection ids as defined above. During collection loading we also do some initial filtering on the spatial and temporal extent. More importantly, we have to filter SENTINEL1_MPLIA and SENTINEL1_HPAR for the descending orbit “D080” to be able to calculate the correct reference backscatter signatures. So, we use the following criteria for filtering.</p>
+<div id="48d78dd3" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>spatial_extent <span class="op">=</span> {<span class="st">"west"</span>: <span class="fl">21.93</span>, <span class="st">"south"</span>: <span class="fl">39.47</span>, <span class="st">"east"</span>: <span class="fl">22.23</span>, <span class="st">"north"</span>: <span class="fl">39.64</span>}</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sensing_date <span class="op">=</span> [<span class="st">"2018-02-28T04:00:00Z"</span>, <span class="st">"2018-02-28T05:00:00Z"</span>]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>props <span class="op">=</span> {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>   <span class="st">"sat:orbit_state"</span>: <span class="kw">lambda</span> x: openeo.processes.eq(x, <span class="st">"descending"</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>   <span class="st">"sat:relative_orbit"</span>: <span class="kw">lambda</span> x: openeo.processes.eq(x, <span class="dv">80</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="51869a5a" class="cell" data-execution_count="5">
+<div id="09e8bf9b" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sig0_dc <span class="op">=</span> connection.load_collection(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SENTINEL1_SIG0_20M"</span>,</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    spatial_extent <span class="op">=</span> spatial_extent,</span>
@@ -278,9 +283,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>). <span class="op">\</span></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    mean_time()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="c84dc74b" class="cell output" data-execution_count="6">
+<div id="c3cbedd6" class="cell output" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>connection.collection_metadata(<span class="st">"SENTINEL1_HPAR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="7">
 
     <script>
     if (!window.customElements || !window.customElements.get('openeo-collection')) {
@@ -302,17 +307,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     
 </div>
 </div>
-<div id="1388f147" class="cell" data-execution_count="7">
+<div id="b578d3c5" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>hparam_dc <span class="op">=</span> connection.load_collection(</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SENTINEL1_HPAR"</span>,</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    spatial_extent <span class="op">=</span> spatial_extent,</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    temporal_extent <span class="op">=</span> <span class="st">"2019"</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>). <span class="op">\</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    mean_time()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    temporal_extent <span class="op">=</span> <span class="st">"2019"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    properties<span class="op">=</span>props</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>). <span class="op">\</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    mean_time()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/mschobbe/miniconda3/envs/openeo-flood-mapper-local/lib/python3.10/site-packages/openeo/rest/connection.py:1188: UserWarning: SENTINEL1_HPAR property filtering with properties that are undefined in the collection metadata (summaries): sat:orbit_state, sat:relative_orbit.
+  return DataCube.load_collection(</code></pre>
 </div>
-<div id="8f6e6c2f" class="cell output" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>connection.collection_metadata(<span class="st">"SENTINEL1_MPLIA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+</div>
+<div id="c78bc384" class="cell output" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>connection.collection_metadata(<span class="st">"SENTINEL1_MPLIA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
 
     <script>
     if (!window.customElements || !window.customElements.get('openeo-collection')) {
@@ -334,29 +344,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     
 </div>
 </div>
-<div id="e0ebb307" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>plia_dc <span class="op">=</span> connection.load_collection(</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SENTINEL1_MPLIA"</span>,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    spatial_extent <span class="op">=</span> spatial_extent,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    temporal_extent <span class="op">=</span> [<span class="st">"2020-01-01"</span>, <span class="st">"2020-12-31"</span>],</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    bands<span class="op">=</span>[<span class="st">"MPLIA"</span>]</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>). <span class="op">\</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    mean_time()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c071c0f5" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>plia_dc <span class="op">=</span> connection.load_collection(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SENTINEL1_MPLIA"</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    spatial_extent <span class="op">=</span> spatial_extent,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    temporal_extent <span class="op">=</span> [<span class="st">"2020-01-01"</span>, <span class="st">"2020-12-31"</span>],</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    bands<span class="op">=</span>[<span class="st">"MPLIA"</span>],</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    properties<span class="op">=</span>props</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>). <span class="op">\</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    mean_time()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/mschobbe/miniconda3/envs/openeo-flood-mapper-local/lib/python3.10/site-packages/openeo/rest/connection.py:1188: UserWarning: SENTINEL1_MPLIA property filtering with properties that are undefined in the collection metadata (summaries): sat:orbit_state, sat:relative_orbit.
+  return DataCube.load_collection(</code></pre>
+</div>
 </div>
 </section>
 <section id="openeo-analysis-at-the-eodc" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="openeo-analysis-at-the-eodc"><span class="header-section-number">2.4</span> openEO Analysis at the EODC</h2>
 <p>The remainder of the worklfow is similar to the local processing with some minor differences associated to naming of the objects.</p>
-<div id="de6084a7" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> water_backscatter(plia_dc):</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (plia_dc.band(<span class="st">'MPLIA'</span>) <span class="op">*</span> <span class="op">-</span><span class="fl">0.394181</span> <span class="op">+</span> <span class="op">-</span><span class="fl">4.142015</span>). <span class="op">\</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        add_dimension(<span class="st">'bands'</span>, <span class="st">'wbsc'</span>, <span class="st">'bands'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="1937ae5f" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> water_backscatter(plia_dc):</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (plia_dc.band(<span class="st">'MPLIA'</span>) <span class="op">*</span> <span class="op">-</span><span class="fl">0.394181</span> <span class="op">+</span> <span class="op">-</span><span class="fl">4.142015</span>). <span class="op">\</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        add_dimension(<span class="st">'bands'</span>, <span class="st">'wbsc'</span>, <span class="st">'bands'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here we apply again the <code>water_backscatter()</code> function to the incidence angle datacube, as follows:</p>
-<div id="87193293" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>water_bsc_dc <span class="op">=</span> water_backscatter(plia_dc)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>water_bsc_dc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
+<div id="208e39c2" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>water_bsc_dc <span class="op">=</span> water_backscatter(plia_dc)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>water_bsc_dc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
 
     <script>
     if (!window.customElements || !window.customElements.get('openeo-model-builder')) {
@@ -373,101 +388,104 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
     </script>
     <openeo-model-builder>
-        <script type="application/json">{"id": "1473d70e089a4b33bbae5bfe96db2efa", "explicit-zoom": true, "height": "400px", "value": {"process_graph": {"loadcollection1": {"process_id": "load_collection", "arguments": {"bands": ["MPLIA"], "id": "SENTINEL1_MPLIA", "spatial_extent": {"west": 22, "south": 39.483774, "east": 22.225465, "north": 39.6}, "temporal_extent": ["2020-01-01", "2020-12-31"]}}, "reducedimension1": {"process_id": "reduce_dimension", "arguments": {"data": {"from_node": "loadcollection1"}, "dimension": "t", "reducer": {"process_graph": {"mean1": {"process_id": "mean", "arguments": {"data": {"from_parameter": "data"}}, "result": true}}}}}, "reducedimension2": {"process_id": "reduce_dimension", "arguments": {"data": {"from_node": "reducedimension1"}, "dimension": "bands", "reducer": {"process_graph": {"arrayelement1": {"process_id": "array_element", "arguments": {"data": {"from_parameter": "data"}, "index": 0}}, "multiply1": {"process_id": "multiply", "arguments": {"x": {"from_node": "arrayelement1"}, "y": -0.394181}}, "add1": {"process_id": "add", "arguments": {"x": {"from_node": "multiply1"}, "y": -4.142015}, "result": true}}}}}, "adddimension1": {"process_id": "add_dimension", "arguments": {"data": {"from_node": "reducedimension2"}, "label": "wbsc", "name": "bands", "type": "bands"}, "result": true}}}}</script>
+        <script type="application/json">{"id": "04f5e9f135d54b0397501555f2acdfb2", "explicit-zoom": true, "height": "400px", "value": {"process_graph": {"loadcollection1": {"process_id": "load_collection", "arguments": {"bands": ["MPLIA"], "id": "SENTINEL1_MPLIA", "properties": {"sat:orbit_state": {"process_graph": {"eq1": {"process_id": "eq", "arguments": {"x": {"from_parameter": "value"}, "y": "descending"}, "result": true}}}, "sat:relative_orbit": {"process_graph": {"eq2": {"process_id": "eq", "arguments": {"x": {"from_parameter": "value"}, "y": 80}, "result": true}}}}, "spatial_extent": {"west": 21.93, "south": 39.47, "east": 22.23, "north": 39.64}, "temporal_extent": ["2020-01-01", "2020-12-31"]}}, "reducedimension1": {"process_id": "reduce_dimension", "arguments": {"data": {"from_node": "loadcollection1"}, "dimension": "t", "reducer": {"process_graph": {"mean1": {"process_id": "mean", "arguments": {"data": {"from_parameter": "data"}}, "result": true}}}}}, "reducedimension2": {"process_id": "reduce_dimension", "arguments": {"data": {"from_node": "reducedimension1"}, "dimension": "bands", "reducer": {"process_graph": {"arrayelement1": {"process_id": "array_element", "arguments": {"data": {"from_parameter": "data"}, "index": 0}}, "multiply1": {"process_id": "multiply", "arguments": {"x": {"from_node": "arrayelement1"}, "y": -0.394181}}, "add1": {"process_id": "add", "arguments": {"x": {"from_node": "multiply1"}, "y": -4.142015}, "result": true}}}}}, "adddimension1": {"process_id": "add_dimension", "arguments": {"data": {"from_node": "reducedimension2"}, "label": "wbsc", "name": "bands", "type": "bands"}, "result": true}}}}</script>
     </openeo-model-builder>
     
 </div>
 </div>
 <p>To initiate the processing we create a batch job with the <code>create_job()</code> method. This performs the data processing based on the JSON representation of the processing graph. Only by submitting this job to the EODC backend, we can actually perform the processing, like so:</p>
-<div id="df5ae0a1" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>water_bsc_res <span class="op">=</span> water_bsc_dc.save_result(<span class="bu">format</span> <span class="op">=</span> <span class="st">"NetCDF"</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>water_bsc_job <span class="op">=</span> water_bsc_res.create_job(title <span class="op">=</span> <span class="st">"water_bsc_greece_flood_2018_as_NetCDF_py"</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>water_bsc_job.start_job()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8eccc86a" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>water_bsc_res <span class="op">=</span> water_bsc_dc.save_result(<span class="bu">format</span> <span class="op">=</span> <span class="st">"NetCDF"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>water_bsc_job <span class="op">=</span> water_bsc_res.create_job(title <span class="op">=</span> <span class="st">"water_bsc_greece_flood_2018_as_NetCDF_py"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>water_bsc_job.start_job()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We can then download the results and view the retrieved data.</p>
-<div id="c5a81495" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>water_bsc_job.download_result(<span class="st">"data/watter_backscatter/example.nc"</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>water_bsc_dc <span class="op">=</span> xr.open_dataset(<span class="st">"data/watter_backscatter/example.nc"</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>water_bsc_dc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can then download the results.</p>
+<div id="a1989f34" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>water_bsc_job.download_result(<span class="st">"data/watter_backscatter/example.nc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And view the retrieved data.</p>
+<div id="0aa5194d" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>water_bsc_dc <span class="op">=</span> xr.open_dataset(<span class="st">"data/watter_backscatter/example.nc"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>water_bsc_dc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The following code is a duplicate of the local flood mapping processing pipeline, where we define the harmonic model.</p>
-<div id="de3d3ab0" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> harmonic_expected_backscatter(data, dtime_str):</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> np.pi <span class="op">*</span> <span class="dv">2</span> <span class="op">/</span> <span class="dv">365</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> datetime.strptime(dtime_str, <span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">"</span>)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> dt.timetuple().tm_yday</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    wt <span class="op">=</span> w <span class="op">*</span> t</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    M0 <span class="op">=</span> data.band(<span class="st">'M0'</span>)</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    S1 <span class="op">=</span> data.band(<span class="st">'S1'</span>)</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    S2 <span class="op">=</span> data.band(<span class="st">'S2'</span>)</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    S3 <span class="op">=</span> data.band(<span class="st">'S3'</span>)</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    C1 <span class="op">=</span> data.band(<span class="st">'C1'</span>)</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    C2 <span class="op">=</span> data.band(<span class="st">'C2'</span>)</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    C3 <span class="op">=</span> data.band(<span class="st">'C3'</span>)</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    hm_c1 <span class="op">=</span> (M0 <span class="op">+</span> S1 <span class="op">*</span> np.sin(wt)) <span class="op">+</span> (C1 <span class="op">*</span> np.cos(wt))</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    hm_c2 <span class="op">=</span> ((hm_c1 <span class="op">+</span> S2 <span class="op">*</span> np.sin(<span class="dv">2</span> <span class="op">*</span> wt)) <span class="op">+</span> C2 <span class="op">*</span> np.cos(<span class="dv">2</span> <span class="op">*</span> wt))</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    hm_c3 <span class="op">=</span> ((hm_c2 <span class="op">+</span> S3 <span class="op">*</span> np.sin(<span class="dv">3</span> <span class="op">*</span> wt)) <span class="op">+</span> C3 <span class="op">*</span> np.cos(<span class="dv">3</span> <span class="op">*</span> wt))</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hm_c3.add_dimension(<span class="st">'bands'</span>, <span class="st">'hbsc'</span>, <span class="st">'bands'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="def8260e" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> harmonic_expected_backscatter(data, dtime_str):</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> np.pi <span class="op">*</span> <span class="dv">2</span> <span class="op">/</span> <span class="dv">365</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> datetime.strptime(dtime_str, <span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">"</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> dt.timetuple().tm_yday</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    wt <span class="op">=</span> w <span class="op">*</span> t</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    M0 <span class="op">=</span> data.band(<span class="st">'M0'</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    S1 <span class="op">=</span> data.band(<span class="st">'S1'</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    S2 <span class="op">=</span> data.band(<span class="st">'S2'</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    S3 <span class="op">=</span> data.band(<span class="st">'S3'</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    C1 <span class="op">=</span> data.band(<span class="st">'C1'</span>)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    C2 <span class="op">=</span> data.band(<span class="st">'C2'</span>)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    C3 <span class="op">=</span> data.band(<span class="st">'C3'</span>)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    hm_c1 <span class="op">=</span> (M0 <span class="op">+</span> S1 <span class="op">*</span> np.sin(wt)) <span class="op">+</span> (C1 <span class="op">*</span> np.cos(wt))</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    hm_c2 <span class="op">=</span> ((hm_c1 <span class="op">+</span> S2 <span class="op">*</span> np.sin(<span class="dv">2</span> <span class="op">*</span> wt)) <span class="op">+</span> C2 <span class="op">*</span> np.cos(<span class="dv">2</span> <span class="op">*</span> wt))</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    hm_c3 <span class="op">=</span> ((hm_c2 <span class="op">+</span> S3 <span class="op">*</span> np.sin(<span class="dv">3</span> <span class="op">*</span> wt)) <span class="op">+</span> C3 <span class="op">*</span> np.cos(<span class="dv">3</span> <span class="op">*</span> wt))</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hm_c3.add_dimension(<span class="st">'bands'</span>, <span class="st">'hbsc'</span>, <span class="st">'bands'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Perform this function on the datacube for the time slice of the flooding event.</p>
-<div id="c46f6668" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>land_bsc_dc <span class="op">=</span> harmonic_expected_backscatter(hparam_dc, <span class="st">'2018-02-01'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="00a60e04" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>land_bsc_dc <span class="op">=</span> harmonic_expected_backscatter(hparam_dc, <span class="st">'2018-02-01'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In turn, we define the Bayesian classification model, as follows:</p>
-<div id="7217c932" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bayesian_flood_decision(x: ProcessBuilder) <span class="op">-&gt;</span> ProcessBuilder:</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    nf_std <span class="op">=</span> <span class="fl">2.754041</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    sig0 <span class="op">=</span> x.array_element(index<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    std <span class="op">=</span> x.array_element(index<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    wbsc <span class="op">=</span> x.array_element(index<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    hbsc <span class="op">=</span> x.array_element(index<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    f_prob <span class="op">=</span> (<span class="fl">1.0</span> <span class="op">/</span> (std <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">*</span> np.pi))) <span class="op">*</span> np.exp(<span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> <span class="op">\</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>        (((sig0 <span class="op">-</span> wbsc) <span class="op">/</span> nf_std) <span class="op">**</span> <span class="dv">2</span>))</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    nf_prob <span class="op">=</span> (<span class="fl">1.0</span> <span class="op">/</span> (nf_std <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">*</span> np.pi))) <span class="op">*</span> np.exp(<span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> <span class="op">\</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>        (((sig0 <span class="op">-</span> hbsc) <span class="op">/</span> nf_std) <span class="op">**</span> <span class="dv">2</span>))</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    evidence <span class="op">=</span> (nf_prob <span class="op">*</span> <span class="fl">0.5</span>) <span class="op">+</span> (f_prob <span class="op">*</span> <span class="fl">0.5</span>)</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    f_post_prob <span class="op">=</span> (f_prob <span class="op">*</span> <span class="fl">0.5</span>) <span class="op">/</span> evidence </span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    nf_post_prob <span class="op">=</span> (nf_prob <span class="op">*</span> <span class="fl">0.5</span>) <span class="op">/</span> evidence </span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># flood if flood class has higher probability</span></span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> f_post_prob.gt(nf_post_prob)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="2f34c0a3" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bayesian_flood_decision(x: ProcessBuilder) <span class="op">-&gt;</span> ProcessBuilder:</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    nf_std <span class="op">=</span> <span class="fl">2.754041</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    sig0 <span class="op">=</span> x.array_element(index<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    std <span class="op">=</span> x.array_element(index<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    wbsc <span class="op">=</span> x.array_element(index<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    hbsc <span class="op">=</span> x.array_element(index<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    f_prob <span class="op">=</span> (<span class="fl">1.0</span> <span class="op">/</span> (std <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">*</span> np.pi))) <span class="op">*</span> np.exp(<span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> <span class="op">\</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>        (((sig0 <span class="op">-</span> wbsc) <span class="op">/</span> nf_std) <span class="op">**</span> <span class="dv">2</span>))</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    nf_prob <span class="op">=</span> (<span class="fl">1.0</span> <span class="op">/</span> (nf_std <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">*</span> np.pi))) <span class="op">*</span> np.exp(<span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> <span class="op">\</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>        (((sig0 <span class="op">-</span> hbsc) <span class="op">/</span> nf_std) <span class="op">**</span> <span class="dv">2</span>))</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    evidence <span class="op">=</span> (nf_prob <span class="op">*</span> <span class="fl">0.5</span>) <span class="op">+</span> (f_prob <span class="op">*</span> <span class="fl">0.5</span>)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    f_post_prob <span class="op">=</span> (f_prob <span class="op">*</span> <span class="fl">0.5</span>) <span class="op">/</span> evidence </span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    nf_post_prob <span class="op">=</span> (nf_prob <span class="op">*</span> <span class="fl">0.5</span>) <span class="op">/</span> evidence </span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># flood if flood class has higher probability</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> f_post_prob.gt(nf_post_prob)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And then execute this on a combined data cube, as follows:</p>
-<div id="09ffda37" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>std_dc <span class="op">=</span> hparam_dc.band(<span class="st">'STD'</span>).add_dimension(<span class="st">'bands'</span>, <span class="st">'std'</span>, <span class="st">'bands'</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>sig0_dc <span class="op">=</span> sig0_dc.reduce_bands(<span class="st">'mean'</span>).add_dimension(<span class="st">'bands'</span>, <span class="st">'sig0'</span>, <span class="st">'bands'</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>decision_in_dc <span class="op">=</span> sig0_dc. <span class="op">\</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    merge_cubes(std_dc). <span class="op">\</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    merge_cubes(water_bsc_dc). <span class="op">\</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    merge_cubes(land_bsc_dc) . <span class="op">\</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    merge_cubes(plia_dc)</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>flood_dc <span class="op">=</span> decision_in_dc.reduce_bands(bayesian_flood_decision). <span class="op">\</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    add_dimension(<span class="st">'bands'</span>, <span class="st">'dec'</span>, <span class="st">'bands'</span>)</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>flood_dc <span class="op">=</span> flood_dc.merge_cubes(decision_in_dc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="63cd2807" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>std_dc <span class="op">=</span> hparam_dc.band(<span class="st">'STD'</span>).add_dimension(<span class="st">'bands'</span>, <span class="st">'std'</span>, <span class="st">'bands'</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>sig0_dc <span class="op">=</span> sig0_dc.reduce_bands(<span class="st">'mean'</span>).add_dimension(<span class="st">'bands'</span>, <span class="st">'sig0'</span>, <span class="st">'bands'</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>decision_in_dc <span class="op">=</span> sig0_dc. <span class="op">\</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    merge_cubes(std_dc). <span class="op">\</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    merge_cubes(water_bsc_dc). <span class="op">\</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    merge_cubes(land_bsc_dc) . <span class="op">\</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    merge_cubes(plia_dc)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>flood_dc <span class="op">=</span> decision_in_dc.reduce_bands(bayesian_flood_decision). <span class="op">\</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    add_dimension(<span class="st">'bands'</span>, <span class="st">'dec'</span>, <span class="st">'bands'</span>)</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>flood_dc <span class="op">=</span> flood_dc.merge_cubes(decision_in_dc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally, we can again proceed and send this processing pipeline of to the EODC.</p>
-<div id="dafff618" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>flood_res <span class="op">=</span> flood_dc.save_result(<span class="bu">format</span> <span class="op">=</span> <span class="st">"NetCDF"</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>flood_job <span class="op">=</span> flood_res.create_job(title <span class="op">=</span> <span class="st">"flood_greece_flood_2018_as_NetCDF_py"</span>)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>flood_job.start_job()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3c76fa46" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>flood_res <span class="op">=</span> flood_dc.save_result(<span class="bu">format</span> <span class="op">=</span> <span class="st">"NetCDF"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>flood_job <span class="op">=</span> flood_res.create_job(title <span class="op">=</span> <span class="st">"flood_greece_flood_2018_as_NetCDF_py"</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>flood_job.start_job()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And retrieve the data, like so:</p>
-<div id="df0f82f9" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>flood_job.download(<span class="st">"data/thessaly_floodmap.nc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="4c2381cd" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>flood_job.download_result(<span class="st">"data/thessaly_floodmap.nc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now let’s have a look at the processing job performed at EODC.</p>
-<div id="5144f5eb" class="cell" data-results="hide" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>view_flood_map(xr.open_dataset(<span class="st">"data/thessaly_floodmap.nc"</span>).dec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b1330225" class="cell" data-results="hide" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>view_flood_map(xr.open_dataset(<span class="st">"data/thessaly_floodmap.nc"</span>).dec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="2_eodc_dc_files/figure-html/cell-21-output-1.png" width="885" height="634" class="figure-img"></p>
+<p><img src="2_eodc_dc_files/figure-html/cell-23-output-1.png" width="814" height="634" class="figure-img"></p>
 <figcaption>openEO floodmap - no pre-processing</figcaption>
 </figure>
 </div>
@@ -477,24 +495,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li>Masking of Exceeding Incidence Angles</li>
 </ol>
-<div id="7b0a0643" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mask_ia <span class="op">=</span> (flood_dc.band(<span class="st">"MPLIA"</span>) <span class="op">&gt;=</span> <span class="dv">27</span>) <span class="op">*</span> (flood_dc.band(<span class="st">"MPLIA"</span>) <span class="op">&lt;=</span> <span class="dv">48</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>flood_dc <span class="op">=</span> flood_dc <span class="op">*</span> mask_ia</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3e946693" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>mask_ia <span class="op">=</span> (flood_dc.band(<span class="st">"MPLIA"</span>) <span class="op">&gt;=</span> <span class="dv">27</span>) <span class="op">*</span> (flood_dc.band(<span class="st">"MPLIA"</span>) <span class="op">&lt;=</span> <span class="dv">48</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>flood_dc <span class="op">=</span> flood_dc <span class="op">*</span> mask_ia</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="9b4d438e" class="cell" data-execution_count="22">
+<div id="c2957be3" class="cell" data-execution_count="24">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>flood_res <span class="op">=</span> flood_dc.save_result(<span class="bu">format</span> <span class="op">=</span> <span class="st">"NetCDF"</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>flood_job <span class="op">=</span> flood_res.create_job(title <span class="op">=</span> <span class="st">"flood_greece_flood_2018_as_NetCDF_py"</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>flood_job.start_job()</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>flood_job.download_result(<span class="st">"data/thessaly_floodmap_plia.nc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>flood_res <span class="op">=</span> flood_dc.save_result(<span class="bu">format</span> <span class="op">=</span> <span class="st">"NetCDF"</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>flood_job <span class="op">=</span> flood_res.create_job(title <span class="op">=</span> <span class="st">"flood_greece_flood_2018_as_NetCDF_py"</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>flood_job.start_job()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="fe9c9ec9" class="cell" data-results="hide" data-execution_count="23">
+<div id="d5c37c7d" class="cell" data-execution_count="25">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>flood_job.download_result(<span class="st">"data/thessaly_floodmap_plia.nc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="40c2d51b" class="cell" data-results="hide" data-execution_count="26">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="2_eodc_dc_files/figure-html/cell-24-output-1.png" width="885" height="634" class="figure-img"></p>
+<p><img src="2_eodc_dc_files/figure-html/cell-27-output-1.png" width="814" height="634" class="figure-img"></p>
 <figcaption>openEO floodmap - masking exceeding incidence angles</figcaption>
 </figure>
 </div>
@@ -503,25 +526,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol start="2" type="1">
 <li>Identification of Conflicting Distributions</li>
 </ol>
-<div id="1a140c7f" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>water_bsc_threshold <span class="op">=</span> flood_dc.band(<span class="st">"wbsc"</span>) <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="fl">2.754041</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>mask_conflict <span class="op">=</span> flood_dc.band(<span class="st">"hbsc"</span>) <span class="op">&gt;</span> water_bsc_threshold</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>flood_dc <span class="op">=</span> flood_dc <span class="op">*</span> mask_conflict</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="0599a714" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>water_bsc_threshold <span class="op">=</span> flood_dc.band(<span class="st">"wbsc"</span>) <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="fl">2.754041</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>mask_conflict <span class="op">=</span> flood_dc.band(<span class="st">"hbsc"</span>) <span class="op">&gt;</span> water_bsc_threshold</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>flood_dc <span class="op">=</span> flood_dc <span class="op">*</span> mask_conflict</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="2e40f46d" class="cell" data-execution_count="25">
+<div id="47cdc6c6" class="cell" data-execution_count="28">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>flood_res <span class="op">=</span> flood_dc.save_result(<span class="bu">format</span> <span class="op">=</span> <span class="st">"NetCDF"</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>flood_job <span class="op">=</span> flood_res.create_job(title <span class="op">=</span> <span class="st">"flood_greece_flood_2018_as_NetCDF_py"</span>)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>flood_job.start_job()</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>flood_job.download_result(<span class="st">"data/thessaly_floodmap_plia_distr.nc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>flood_res <span class="op">=</span> flood_dc.save_result(<span class="bu">format</span> <span class="op">=</span> <span class="st">"NetCDF"</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>flood_job <span class="op">=</span> flood_res.create_job(title <span class="op">=</span> <span class="st">"flood_greece_flood_2018_as_NetCDF_py"</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>flood_job.start_job()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="9092d051" class="cell" data-results="hide" data-execution_count="26">
+<div id="91f08f46" class="cell" data-execution_count="29">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>flood_job.download_result(<span class="st">"data/thessaly_floodmap_plia_distr.nc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="91262272" class="cell" data-results="hide" data-execution_count="30">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="2_eodc_dc_files/figure-html/cell-27-output-1.png" width="885" height="634" class="figure-img"></p>
+<p><img src="2_eodc_dc_files/figure-html/cell-31-output-1.png" width="814" height="634" class="figure-img"></p>
 <figcaption>openEO floodmap - masking conflicting distributions + exceeding incidence angles</figcaption>
 </figure>
 </div>
@@ -530,29 +558,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol start="3" type="1">
 <li>Removal of Measurement Outliers</li>
 </ol>
-<div id="5ade08ca" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>land_bsc_lower <span class="op">=</span> flood_dc.band(<span class="st">"hbsc"</span>) <span class="op">-</span> <span class="dv">3</span> <span class="op">*</span> flood_dc.band(<span class="st">"std"</span>)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>land_bsc_upper <span class="op">=</span> flood_dc.band(<span class="st">"hbsc"</span>) <span class="op">+</span> <span class="dv">3</span> <span class="op">*</span> flood_dc.band(<span class="st">"std"</span>)</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>water_bsc_upper <span class="op">=</span> flood_dc.band(<span class="st">"wbsc"</span>) <span class="op">+</span> <span class="dv">3</span> <span class="op">*</span> <span class="fl">2.754041</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>mask_land_outliers <span class="op">=</span> (flood_dc.band(<span class="st">"sig0"</span>) <span class="op">&gt;</span> land_bsc_lower) <span class="op">*</span> (flood_dc.band(<span class="st">"sig0"</span>) <span class="op">&lt;</span> land_bsc_upper)</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>mask_water_outliers <span class="op">=</span> flood_dc.band(<span class="st">"sig0"</span>) <span class="op">&lt;</span> water_bsc_upper</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>flood_dc <span class="op">=</span> flood_dc <span class="op">*</span> (mask_land_outliers <span class="op">|</span> mask_water_outliers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="08f0cf09" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>land_bsc_lower <span class="op">=</span> flood_dc.band(<span class="st">"hbsc"</span>) <span class="op">-</span> <span class="dv">3</span> <span class="op">*</span> flood_dc.band(<span class="st">"std"</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>land_bsc_upper <span class="op">=</span> flood_dc.band(<span class="st">"hbsc"</span>) <span class="op">+</span> <span class="dv">3</span> <span class="op">*</span> flood_dc.band(<span class="st">"std"</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>water_bsc_upper <span class="op">=</span> flood_dc.band(<span class="st">"wbsc"</span>) <span class="op">+</span> <span class="dv">3</span> <span class="op">*</span> <span class="fl">2.754041</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>mask_land_outliers <span class="op">=</span> (flood_dc.band(<span class="st">"sig0"</span>) <span class="op">&gt;</span> land_bsc_lower) <span class="op">*</span> (flood_dc.band(<span class="st">"sig0"</span>) <span class="op">&lt;</span> land_bsc_upper)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>mask_water_outliers <span class="op">=</span> flood_dc.band(<span class="st">"sig0"</span>) <span class="op">&lt;</span> water_bsc_upper</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>flood_dc <span class="op">=</span> flood_dc <span class="op">*</span> (mask_land_outliers <span class="op">|</span> mask_water_outliers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="b388089e" class="cell" data-execution_count="28">
+<div id="da900289" class="cell" data-execution_count="32">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>flood_res <span class="op">=</span> flood_dc.save_result(<span class="bu">format</span> <span class="op">=</span> <span class="st">"NetCDF"</span>)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>flood_job <span class="op">=</span> flood_res.create_job(title <span class="op">=</span> <span class="st">"flood_greece_flood_2018_as_NetCDF_py"</span>)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>flood_job.start_job()</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>flood_job.download_result(<span class="st">"data/thessaly_floodmap_plia_distr_out.nc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>flood_res <span class="op">=</span> flood_dc.save_result(<span class="bu">format</span> <span class="op">=</span> <span class="st">"NetCDF"</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>flood_job <span class="op">=</span> flood_res.create_job(title <span class="op">=</span> <span class="st">"flood_greece_flood_2018_as_NetCDF_py"</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>flood_job.start_job()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="3909a76c" class="cell" data-results="hide" data-execution_count="29">
+<div id="7bd73aa4" class="cell" data-execution_count="33">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>flood_job.download_result(<span class="st">"data/thessaly_floodmap_plia_distr_out.nc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="d8285b74" class="cell" data-results="hide" data-execution_count="34">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="2_eodc_dc_files/figure-html/cell-30-output-1.png" width="885" height="634" class="figure-img"></p>
+<p><img src="2_eodc_dc_files/figure-html/cell-35-output-1.png" width="814" height="634" class="figure-img"></p>
 <figcaption>openEO floodmap - masking extreme outliers + conflicting distributions + exceeding incidence angles</figcaption>
 </figure>
 </div>
@@ -561,24 +594,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol start="4" type="1">
 <li>Denial of High Uncertainty on Decision</li>
 </ol>
-<div id="f19a24aa" class="cell" data-execution_count="30">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>mask_uncertainty <span class="op">=</span> flood_dc.band(<span class="st">"dec"</span>) <span class="op">&gt;</span> <span class="fl">0.8</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>flood_dc <span class="op">=</span> flood_dc <span class="op">*</span> mask_uncertainty</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b128aff1" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>mask_uncertainty <span class="op">=</span> flood_dc.band(<span class="st">"dec"</span>) <span class="op">&gt;</span> <span class="fl">0.8</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>flood_dc <span class="op">=</span> flood_dc <span class="op">*</span> mask_uncertainty</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f7a4b808" class="cell" data-execution_count="31">
+<div id="0f8bbaea" class="cell" data-execution_count="36">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>flood_res <span class="op">=</span> flood_dc.save_result(<span class="bu">format</span> <span class="op">=</span> <span class="st">"NetCDF"</span>)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>flood_job <span class="op">=</span> flood_res.create_job(title <span class="op">=</span> <span class="st">"flood_greece_flood_2018_as_NetCDF_py"</span>)</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>flood_job.start_job()</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>flood_job.download_result(<span class="st">"data/thessaly_floodmap_plia_distr_out_den.nc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>flood_res <span class="op">=</span> flood_dc.save_result(<span class="bu">format</span> <span class="op">=</span> <span class="st">"NetCDF"</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>flood_job <span class="op">=</span> flood_res.create_job(title <span class="op">=</span> <span class="st">"flood_greece_flood_2018_as_NetCDF_py"</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>flood_job.start_job()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="98bc12e4" class="cell" data-results="hide" data-execution_count="32">
+<div id="979f97ea" class="cell" data-execution_count="37">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>flood_job.download_result(<span class="st">"data/thessaly_floodmap_plia_distr_out_den.nc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="a06ac211" class="cell" data-results="hide" data-execution_count="38">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="2_eodc_dc_files/figure-html/cell-33-output-1.png" width="885" height="634" class="figure-img"></p>
+<p><img src="2_eodc_dc_files/figure-html/cell-39-output-1.png" width="814" height="634" class="figure-img"></p>
 <figcaption>openEO floodmap - masking high uncertainty classifications + extreme outliers + conflicting distributions + exceeding incidence angles</figcaption>
 </figure>
 </div>
